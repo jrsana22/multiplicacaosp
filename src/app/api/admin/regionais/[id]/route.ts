@@ -5,10 +5,11 @@ import { cookies } from "next/headers";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log("DELETE regional chamado com ID:", params.id);
+    const { id } = await params;
+    console.log("DELETE regional chamado com ID:", id);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -32,7 +33,7 @@ export async function DELETE(
 
     // Buscar regional
     const regional = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!regional) {
@@ -44,7 +45,7 @@ export async function DELETE(
 
     // Deletar regional (cascata deleta cadastros e vendas também)
     await prisma.user.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Regional deletado com sucesso" });

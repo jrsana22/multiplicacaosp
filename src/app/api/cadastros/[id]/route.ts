@@ -5,10 +5,11 @@ import { cookies } from "next/headers";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log("DELETE cadastro chamado com ID:", params.id);
+    const { id } = await params;
+    console.log("DELETE cadastro chamado com ID:", id);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
@@ -24,7 +25,7 @@ export async function DELETE(
 
     // Buscar cadastro
     const cadastro = await prisma.cadastro.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!cadastro) {
@@ -47,7 +48,7 @@ export async function DELETE(
 
     // Deletar cadastro (cascata deleta venda também)
     await prisma.cadastro.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: "Cadastro deletado com sucesso" });
