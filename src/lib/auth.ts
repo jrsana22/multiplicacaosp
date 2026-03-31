@@ -37,22 +37,23 @@ export async function verifyToken(token: string) {
 
 export async function setTokenCookie(token: string) {
   const cookieStore = await cookies();
-  cookieStore.set("auth_token", token, {
+  cookieStore.set("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7, // 7 days
+    path: "/",
   });
 }
 
 export async function getTokenFromCookie() {
   const cookieStore = await cookies();
-  return cookieStore.get("auth_token")?.value;
+  return cookieStore.get("token")?.value;
 }
 
 export async function clearTokenCookie() {
   const cookieStore = await cookies();
-  cookieStore.delete("auth_token");
+  cookieStore.delete("token");
 }
 
 export async function getCurrentUser() {
