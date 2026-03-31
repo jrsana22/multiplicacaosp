@@ -99,7 +99,7 @@ export default function SignupPage() {
               <div className="text-3xl">🎯</div>
               <div>
                 <h3 className="font-bold text-white mb-1">Pronto para Desafiar</h3>
-                <p className="text-slate-400 text-sm">Comece a rastrear seus cadastros e vendas</p>
+                <p className="text-slate-400 text-sm">Inicie seus cadastros e acompanhe as vendas dos consultores</p>
               </div>
             </div>
           </div>

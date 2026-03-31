@@ -14,10 +14,11 @@ export interface JWTPayload {
   email: string;
   role: "REGIONAL" | "LIDER";
   name: string;
+  [key: string]: any;
 }
 
 export async function createToken(payload: JWTPayload) {
-  const token = await new SignJWT(payload)
+  const token = await new SignJWT(payload as Record<string, any>)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("7d")
     .sign(secret);

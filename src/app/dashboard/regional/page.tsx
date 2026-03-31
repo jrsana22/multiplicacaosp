@@ -33,6 +33,10 @@ export default function RegionalDashboard() {
 
   useEffect(() => {
     fetchCadastros();
+
+    // Refetch automático a cada 30s
+    const interval = setInterval(fetchCadastros, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchCadastros = async () => {
@@ -135,11 +139,11 @@ export default function RegionalDashboard() {
   return (
     <div className="space-y-6">
       {/* Progress Banner */}
-      <div className={`rounded-xl p-8 ${desafioCompleto ? 'bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200' : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'}`}>
+      <div className={`rounded-xl p-8 ${desafioCompleto ? 'bg-slate-800/30 border border-green-500/30' : 'bg-slate-800/30 border border-slate-700'}`}>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-1">Desafio do Mês</h2>
-            <p className="text-slate-600">3 Cadastros + 3 Vendas = Sorteio do Notebook</p>
+            <h2 className="text-2xl font-bold text-white mb-1">Desafio do Mês</h2>
+            <p className="text-slate-300">3 Cadastros + 3 Vendas = Sorteio do Notebook</p>
           </div>
           <div className="text-5xl">{desafioCompleto ? '🏆' : '⚡'}</div>
         </div>
@@ -148,8 +152,8 @@ export default function RegionalDashboard() {
           {/* Cadastros Progress */}
           <div>
             <div className="flex items-baseline justify-between mb-3">
-              <span className="text-slate-700 font-medium">Cadastros</span>
-              <span className={`text-2xl font-bold ${totalCadastros >= 3 ? 'text-green-600' : 'text-slate-900'}`}>
+              <span className="text-slate-300 font-medium">Cadastros</span>
+              <span className={`text-2xl font-bold ${totalCadastros >= 3 ? 'text-green-400' : 'text-white'}`}>
                 {Math.min(totalCadastros, 3)}/3
               </span>
             </div>
@@ -164,8 +168,8 @@ export default function RegionalDashboard() {
           {/* Vendas Progress */}
           <div>
             <div className="flex items-baseline justify-between mb-3">
-              <span className="text-slate-700 font-medium">Vendas</span>
-              <span className={`text-2xl font-bold ${totalVendas >= 3 ? 'text-green-600' : 'text-slate-900'}`}>
+              <span className="text-slate-300 font-medium">Vendas</span>
+              <span className={`text-2xl font-bold ${totalVendas >= 3 ? 'text-green-400' : 'text-white'}`}>
                 {Math.min(totalVendas, 3)}/3
               </span>
             </div>
@@ -179,33 +183,33 @@ export default function RegionalDashboard() {
         </div>
 
         {desafioCompleto && (
-          <div className="mt-6 p-4 bg-green-100 border border-green-300 rounded-lg text-center">
-            <p className="text-green-900 font-bold">✅ Parabéns! Você concorre ao sorteio do notebook!</p>
+          <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg text-center">
+            <p className="text-green-300 font-bold">✅ Parabéns! Você concorre ao sorteio do notebook!</p>
           </div>
         )}
       </div>
 
       {/* Metrics Cards */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-lg p-6 border border-slate-200">
-          <p className="text-slate-600 text-sm font-medium mb-2">Total de Cadastros</p>
-          <p className="text-4xl font-bold text-slate-900">{totalCadastros}</p>
+        <div className="bg-slate-800/30 rounded-lg p-6 border border-slate-700">
+          <p className="text-slate-400 text-sm font-medium mb-2">Total de Cadastros</p>
+          <p className="text-4xl font-bold text-white">{totalCadastros}</p>
         </div>
-        <div className="bg-white rounded-lg p-6 border border-slate-200">
-          <p className="text-slate-600 text-sm font-medium mb-2">Total de Vendas</p>
-          <p className="text-4xl font-bold text-slate-900">{totalVendas}</p>
+        <div className="bg-slate-800/30 rounded-lg p-6 border border-slate-700">
+          <p className="text-slate-400 text-sm font-medium mb-2">Total de Vendas</p>
+          <p className="text-4xl font-bold text-white">{totalVendas}</p>
         </div>
       </div>
 
       {/* Form Section */}
-      <div className="bg-white rounded-xl border border-slate-200 p-8">
-        <h3 className="text-xl font-bold text-slate-900 mb-6">Registrar Novo Cadastro</h3>
+      <div className="bg-slate-800/30 rounded-xl border border-slate-700 p-8">
+        <h3 className="text-xl font-bold text-white mb-6">Registrar Novo Cadastro</h3>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name and Date Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Nome do Consultor
               </label>
               <input
@@ -213,14 +217,14 @@ export default function RegionalDashboard() {
                 name="nomeConsultor"
                 value={formData.nomeConsultor}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-600 bg-slate-700/30 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Nome completo"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Data do Cadastro
               </label>
               <input
@@ -228,7 +232,7 @@ export default function RegionalDashboard() {
                 name="dataCadastro"
                 value={formData.dataCadastro}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-600 bg-slate-700/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -236,7 +240,7 @@ export default function RegionalDashboard() {
 
           {/* File Upload */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
               Comprovação (PDF, JPG ou PNG)
             </label>
             <div className="flex items-center gap-3">
@@ -245,17 +249,17 @@ export default function RegionalDashboard() {
                 name="comprovacao"
                 onChange={handleChange}
                 accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                className="flex-1 px-4 py-3 border border-slate-200 rounded-lg text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-4 py-3 border border-slate-600 bg-slate-700/30 rounded-lg text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-blue-600 file:text-white hover:file:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {fileUploaded && (
-                <span className="text-green-600 text-sm font-medium">✓ {fileName}</span>
+                <span className="text-green-400 text-sm font-medium">✓ {fileName}</span>
               )}
             </div>
             <p className="text-xs text-slate-500 mt-2">Máx 10MB</p>
           </div>
 
           {/* Venda Checkbox */}
-          <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+          <div className="flex items-center gap-3 p-4 bg-slate-700/30 rounded-lg border border-slate-600">
             <input
               type="checkbox"
               name="fezVenda"
@@ -263,7 +267,7 @@ export default function RegionalDashboard() {
               onChange={handleChange}
               className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
             />
-            <label className="font-medium text-slate-700">
+            <label className="font-medium text-slate-300">
               Já fez a primeira venda?
             </label>
           </div>
@@ -271,7 +275,7 @@ export default function RegionalDashboard() {
           {/* Venda Date */}
           {formData.fezVenda && (
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
                 Data da Venda
               </label>
               <input
@@ -279,7 +283,7 @@ export default function RegionalDashboard() {
                 name="dataVenda"
                 value={formData.dataVenda}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-600 bg-slate-700/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -287,13 +291,13 @@ export default function RegionalDashboard() {
 
           {/* Messages */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-red-500/10 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-green-500/10 border border-green-500/30 text-green-300 px-4 py-3 rounded-lg text-sm">
               {success}
             </div>
           )}
@@ -310,33 +314,33 @@ export default function RegionalDashboard() {
 
       {/* Listings Section */}
       {totalCadastros > 0 && (
-        <div className="bg-white rounded-xl border border-slate-200 p-8">
-          <h3 className="text-xl font-bold text-slate-900 mb-6">
+        <div className="bg-slate-800/30 rounded-xl border border-slate-700 p-8">
+          <h3 className="text-xl font-bold text-white mb-6">
             Meus Cadastros ({totalCadastros})
           </h3>
           <div className="space-y-3">
             {cadastros.map((cadastro) => (
               <div
                 key={cadastro.id}
-                className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
+                className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors border border-slate-600"
               >
                 <div className="flex-1">
-                  <h4 className="font-medium text-slate-900">
+                  <h4 className="font-medium text-white">
                     {cadastro.nomeConsultor}
                   </h4>
-                  <div className="flex gap-4 mt-2 text-sm text-slate-600">
+                  <div className="flex gap-4 mt-2 text-sm text-slate-400">
                     <span>📅 {new Date(cadastro.dataCadastro).toLocaleDateString("pt-BR")}</span>
                     {cadastro.venda && (
-                      <span className="text-green-700">✅ Venda: {new Date(cadastro.venda.dataVenda).toLocaleDateString("pt-BR")}</span>
+                      <span className="text-green-400">✅ Venda: {new Date(cadastro.venda.dataVenda).toLocaleDateString("pt-BR")}</span>
                     )}
                   </div>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                   cadastro.status === "PENDENTE"
-                    ? "bg-yellow-100 text-yellow-800"
+                    ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
                     : cadastro.status === "VALIDADO"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
+                      ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                      : "bg-red-500/20 text-red-300 border border-red-500/30"
                 }`}>
                   {cadastro.status}
                 </span>

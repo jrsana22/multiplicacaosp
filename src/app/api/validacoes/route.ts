@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     if (payload.role !== "LIDER") {
       return NextResponse.json(
-        { message: "Permissão negada. Apenas líderes podem validar" },
+        { message: "Permissão negada. Apenas líderes podem validar. Role atual: " + payload.role },
         { status: 403 }
       );
     }

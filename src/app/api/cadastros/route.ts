@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     if (payload.role !== "REGIONAL") {
       return NextResponse.json(
-        { message: "Permissão negada" },
+        { message: "Permissão negada. Você precisa estar logado como REGIONAL para criar cadastros. Role atual: " + payload.role },
         { status: 403 }
       );
     }

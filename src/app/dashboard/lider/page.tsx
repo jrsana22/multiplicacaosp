@@ -24,6 +24,7 @@ interface RankingItem {
   cadastros: number;
   vendas: number;
   conversao: number;
+  elegivel: boolean;
 }
 
 export default function LiderDashboard() {
@@ -35,6 +36,10 @@ export default function LiderDashboard() {
 
   useEffect(() => {
     fetchCadastros();
+
+    // Refetch automático a cada 30s
+    const interval = setInterval(fetchCadastros, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchCadastros = async () => {
@@ -59,6 +64,7 @@ export default function LiderDashboard() {
               cadastros: 0,
               vendas: 0,
               conversao: 0,
+              elegivel: false,
             });
           }
 
@@ -70,6 +76,7 @@ export default function LiderDashboard() {
           }
 
           item.conversao = Math.round((item.vendas / item.cadastros) * 100) || 0;
+          item.elegivel = item.cadastros >= 3 && item.vendas >= 3;
         });
 
         setRanking(
@@ -167,15 +174,28 @@ export default function LiderDashboard() {
                 {ranking.map((item, idx) => (
                   <div
                     key={item.regionalId}
-                    className="bg-slate-700/30 border border-slate-600 rounded-lg p-5 hover:bg-slate-700/50 transition-colors"
+                    className={`border rounded-lg p-5 transition-colors ${
+                      item.elegivel
+                        ? 'bg-green-500/10 border-green-500/50 hover:bg-green-500/15'
+                        : 'bg-slate-700/30 border-slate-600 hover:bg-slate-700/50'
+                    }`}
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-sm">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full text-white font-bold text-sm ${
+                          item.elegivel ? 'bg-green-600' : 'bg-blue-600'
+                        }`}>
                           {idx + 1}
                         </div>
                         <div>
-                          <p className="font-bold text-white">{item.regional}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-bold text-white">{item.regional}</p>
+                            {item.elegivel && (
+                              <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full font-bold">
+                                🏆 SORTEIO
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
