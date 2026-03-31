@@ -8,6 +8,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    console.log("DELETE cadastro chamado com ID:", params.id);
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
