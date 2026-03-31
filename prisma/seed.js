@@ -13,12 +13,21 @@ async function main() {
   console.log("🗑️  Dados antigos deletados");
 
   // Create users
-  const lider = await prisma.user.create({
+  const admin = await prisma.user.create({
     data: {
-      email: "lider@test.com",
+      email: "jrsana@yahoo.com.br",
       password: await bcrypt.hash("senha123", 10),
+      name: "Junior Sana - Admin",
+      role: "DIRETOR_DE_EXPANSAO",
+    },
+  });
+
+  const diretor = await prisma.user.create({
+    data: {
+      email: "empreendacomerivaldo@gmail.com",
+      password: await bcrypt.hash("TrocueSenha2026!", 10),
       name: "Erivaldo Filho",
-      role: "LIDER",
+      role: "DIRETOR_DE_EXPANSAO",
     },
   });
 
@@ -41,6 +50,9 @@ async function main() {
   });
 
   console.log("✅ Usuários criados");
+  console.log("\n👤 Usuários criados:");
+  console.log(`Admin: ${admin.email}`);
+  console.log(`Diretor: ${diretor.email}`);
 
   // Create cadastros for regional1
   const cadastro1 = await prisma.cadastro.create({
@@ -118,8 +130,9 @@ async function main() {
 
   console.log("✅ Cadastros criados");
   console.log("\n🎉 Seed completado!");
-  console.log("\n📝 Credenciais de teste:");
-  console.log("Líder: lider@test.com / senha123");
+  console.log("\n📝 Credenciais:");
+  console.log("Admin: jrsana@yahoo.com.br / senha123");
+  console.log("Diretor de Expansão: empreendacomerivaldo@gmail.com / TrocueSenha2026!");
   console.log("Regional 1: regional1@test.com / senha123");
   console.log("Regional 2: regional2@test.com / senha123");
 }

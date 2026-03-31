@@ -12,7 +12,7 @@ export default async function DashboardPage() {
     redirect("/dashboard/regional");
   }
 
-  if (user.role === "LIDER") {
+  if (user.role === "DIRETOR_DE_EXPANSAO") {
     redirect("/dashboard/lider");
   }
 

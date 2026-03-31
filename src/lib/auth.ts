@@ -12,7 +12,7 @@ const secret = new TextEncoder().encode(JWT_SECRET);
 export interface JWTPayload {
   userId: string;
   email: string;
-  role: "REGIONAL" | "LIDER";
+  role: "REGIONAL" | "DIRETOR_DE_EXPANSAO";
   name: string;
   [key: string]: any;
 }

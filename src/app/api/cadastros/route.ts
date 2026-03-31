@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     const cadastros = await prisma.cadastro.findMany({
       where:
-        payload.role === "LIDER"
+        payload.role === "DIRETOR_DE_EXPANSAO"
           ? {}
           : {
               regionalId: payload.userId,

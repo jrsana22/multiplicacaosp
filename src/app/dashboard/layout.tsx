@@ -28,7 +28,7 @@ export default async function DashboardLayout({
                   {user.name}
                 </p>
                 <p className="text-xs text-slate-500">
-                  {user.role === "LIDER" ? "Líder" : "Regional"} • {user.email}
+                  {user.role === "DIRETOR_DE_EXPANSAO" ? "Diretor de Expansão" : "Regional"} • {user.email}
                 </p>
               </div>
               <form action="/api/auth/logout" method="POST">

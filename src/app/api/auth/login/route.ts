@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const token = await createToken({
       userId: user.id,
       email: user.email,
-      role: user.role as "REGIONAL" | "LIDER",
+      role: user.role as "REGIONAL" | "DIRETOR_DE_EXPANSAO",
       name: user.name,
     });
 
