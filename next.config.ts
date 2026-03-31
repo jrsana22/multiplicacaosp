@@ -4,6 +4,8 @@ const config: NextConfig = {
   reactStrictMode: true,
   typescript: {
     tsconfigPath: "./tsconfig.json",
+    ignoreDevErrors: true,
+    ignoreBuildErrors: false,
   },
   onDemandEntries: {
     maxInactiveAge: 60 * 1000,
