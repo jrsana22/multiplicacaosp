@@ -7,6 +7,7 @@ interface Cadastro {
   id: string;
   nomeConsultor: string;
   dataCadastro: string;
+  urlComprovacaoCadastro?: string;
   status: string;
   regional: {
     name: string;
@@ -84,6 +85,7 @@ export default function AdminPage() {
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Consultor</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Regional</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Data Cadastro</th>
+                <th className="px-6 py-3 text-left font-semibold text-slate-200">Comprovação</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Status</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Venda</th>
               </tr>
@@ -98,6 +100,15 @@ export default function AdminPage() {
                   </td>
                   <td className="px-6 py-3 text-slate-300">
                     {new Date(cadastro.dataCadastro).toLocaleDateString("pt-BR")}
+                  </td>
+                  <td className="px-6 py-3">
+                    {cadastro.urlComprovacaoCadastro ? (
+                      <a href={cadastro.urlComprovacaoCadastro} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline text-sm">
+                        Ver Comprovação
+                      </a>
+                    ) : (
+                      <span className="text-slate-500 text-sm">Sem comprovação</span>
+                    )}
                   </td>
                   <td className="px-6 py-3">
                     <span
