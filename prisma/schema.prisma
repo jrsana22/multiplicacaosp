@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  REGIONAL
+  LIDER
+}
+
+enum StatusCadastro {
+  PENDENTE
+  VALIDADO
+  REJEITADO
+}
+
+enum StatusVenda {
+  PENDENTE
+  VALIDADO
+  REJEITADO
+}
+
+enum StatusValidacao {
+  APROVADO
+  REJEITADO
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(REGIONAL)
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cadastros   Cadastro[]
+  validacoes  Validacao[]
+
+  @@map("users")
+}
+
+model Cadastro {
+  id                      String   @id @default(cuid())
+  nomeConsultor           String
+  dataCadastro            DateTime
+  comprovacaoCadastro     String?
+
+  regionalId              String
+  regional                User     @relation(fields: [regionalId], references: [id], onDelete: Cascade)
+
+  vendaId                 String?  @unique
+  venda                   Venda?   @relation(fields: [vendaId], references: [id])
+
+  status                  StatusCadastro @default(PENDENTE)
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  validacoes              Validacao[]
+
+  @@map("cadastros")
+}
+
+model Venda {
+  id                      String   @id @default(cuid())
+  dataVenda               DateTime
+  comprovacaoVenda        String?
+
+  cadastroId              String   @unique
+  cadastro                Cadastro @relation(fields: [cadastroId], references: [id], onDelete: Cascade)
+
+  status                  StatusVenda @default(PENDENTE)
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  validacoes              Validacao[]
+
+  @@map("vendas")
+}
+
+model Validacao {
+  id          String   @id @default(cuid())
+
+  cadastroId  String?
+  cadastro    Cadastro? @relation(fields: [cadastroId], references: [id], onDelete: Cascade)
+
+  vendaId     String?
+  venda       Venda?   @relation(fields: [vendaId], references: [id], onDelete: Cascade)
+
+  validadorId String
+  validador   User     @relation(fields: [validadorId], references: [id], onDelete: Cascade)
+
+  status      StatusValidacao
+  comentario  String?
+
+  createdAt   DateTime @default(now())
+
+  @@map("validacoes")
+}
