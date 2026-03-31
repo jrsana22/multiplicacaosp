@@ -75,7 +75,25 @@ export default function SignupPage() {
         return;
       }
 
-      setStep(3);
+      // Auto-login após signup
+      setLoading(true);
+      const loginRes = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (loginRes.ok) {
+        setTimeout(() => {
+          router.push("/dashboard/regional");
+        }, 500);
+      } else {
+        setStep(3);
+        setLoading(false);
+      }
     } catch (err: any) {
       setError(err.message || "Erro ao criar conta");
       setLoading(false);
