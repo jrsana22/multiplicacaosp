@@ -17,6 +17,24 @@ export default function RegionaisPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Tem certeza que deseja deletar ${name}?`)) return;
+
+    try {
+      const res = await fetch(`/api/admin/regionais/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        setRegionais(regionais.filter((r) => r.id !== id));
+      } else {
+        alert("Erro ao deletar");
+      }
+    } catch (err) {
+      alert("Erro ao deletar");
+    }
+  };
+
   useEffect(() => {
     const fetchRegionais = async () => {
       try {
@@ -100,7 +118,11 @@ export default function RegionaisPage() {
                     </span>
                   </td>
                   <td className="px-6 py-3 text-right">
-                    <button className="text-red-400 hover:text-red-300 text-lg transition-colors" title="Deletar">
+                    <button
+                      onClick={() => handleDelete(regional.id, regional.name)}
+                      className="text-red-400 hover:text-red-300 text-lg transition-colors cursor-pointer"
+                      title="Deletar"
+                    >
                       🗑️
                     </button>
                   </td>

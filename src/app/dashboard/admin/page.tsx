@@ -26,6 +26,24 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Tem certeza que deseja deletar o cadastro de ${name}?`)) return;
+
+    try {
+      const res = await fetch(`/api/cadastros/${id}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        setCadastros(cadastros.filter((c) => c.id !== id));
+      } else {
+        alert("Erro ao deletar");
+      }
+    } catch (err) {
+      alert("Erro ao deletar");
+    }
+  };
+
   useEffect(() => {
     const fetchCadastros = async () => {
       try {
@@ -142,7 +160,11 @@ export default function AdminPage() {
                     )}
                   </td>
                   <td className="px-6 py-3 text-right">
-                    <button className="text-red-400 hover:text-red-300 text-lg transition-colors" title="Deletar">
+                    <button
+                      onClick={() => handleDelete(cadastro.id, cadastro.nomeConsultor)}
+                      className="text-red-400 hover:text-red-300 text-lg transition-colors cursor-pointer"
+                      title="Deletar"
+                    >
                       🗑️
                     </button>
                   </td>
