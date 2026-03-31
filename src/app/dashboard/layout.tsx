@@ -44,6 +44,16 @@ export default async function DashboardLayout({
         </div>
       </nav>
 
+      <div className="bg-red-50 border-l-4 border-red-500 p-4 m-4">
+        <div className="flex items-start gap-3">
+          <div className="text-red-600 font-bold text-xl">⚠️</div>
+          <div>
+            <h3 className="font-bold text-red-800">REGRA IMPORTANTE</h3>
+            <p className="text-red-700 text-sm">NÃO VALE O PRÓPRIO VEÍCULO COMO VENDA!</p>
+          </div>
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{children}</main>
     </div>
   );
