@@ -290,12 +290,17 @@ export default function SignupPage() {
                       }),
                     });
                     if (res.ok) {
-                      router.push("/dashboard/regional");
+                      setTimeout(() => {
+                        router.push("/dashboard/regional");
+                      }, 500);
                     } else {
+                      const data = await res.json();
+                      setError(data.message || "Erro ao fazer login");
                       setLoading(false);
                     }
-                  } catch (err) {
+                  } catch (err: any) {
                     console.error(err);
+                    setError(err.message || "Erro ao fazer login");
                     setLoading(false);
                   }
                 }}
