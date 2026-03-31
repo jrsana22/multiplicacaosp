@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "env": {
+    "SKIP_ENV_VALIDATION": "true"
+  },
+  "installCommand": "npm install --legacy-peer-deps --no-optional"
+}
