@@ -63,6 +63,11 @@ export default function RegionaisPage() {
         </div>
       )}
 
+      {regionais.length === 0 ? (
+        <div className="bg-slate-800 rounded-lg p-8 text-center">
+          <p className="text-slate-400">Nenhum regional cadastrado ainda</p>
+        </div>
+      ) : (
       <div className="bg-slate-800 rounded-lg overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -99,6 +104,7 @@ export default function RegionaisPage() {
           </table>
         </div>
       </div>
+      )}
     </div>
   );
 }
