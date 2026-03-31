@@ -92,10 +92,10 @@ export default function SignupPage() {
         <div className="hidden md:block space-y-8">
           <div className="space-y-4">
             <h1 className="text-5xl font-black text-white leading-tight">
-              Bem-vindo
+              Foco na
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                à Multiplicação
+                Multiplicação
               </span>
             </h1>
             <p className="text-xl text-slate-300 leading-relaxed">
