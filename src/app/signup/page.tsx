@@ -112,13 +112,13 @@ export default function SignupPage() {
         </div>
 
         {/* Lado Direito - Signup Form */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-8">
+        <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 space-y-6 md:space-y-8 max-w-sm mx-auto md:max-w-none w-full">
           {/* Step 1 */}
           {step === 1 && (
             <>
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-slate-900">Primeira Vez?</h2>
-                <p className="text-slate-500">Crie sua conta para começar</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Primeira Vez?</h2>
+                <p className="text-slate-500 text-sm md:text-base">Crie sua conta para começar</p>
               </div>
 
               <form onSubmit={handleStep1} className="space-y-5">
@@ -146,7 +146,7 @@ export default function SignupPage() {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  className="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform text-sm md:text-base shadow-md"
                 >
                   Continuar
                 </button>
@@ -158,8 +158,8 @@ export default function SignupPage() {
           {step === 2 && (
             <>
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-slate-900">Crie Sua Senha</h2>
-                <p className="text-slate-500">Escolha uma senha forte</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Crie Sua Senha</h2>
+                <p className="text-slate-500 text-sm md:text-base">Escolha uma senha forte</p>
               </div>
 
               <form onSubmit={handleStep2} className="space-y-5">
@@ -217,7 +217,7 @@ export default function SignupPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 active:scale-95 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform text-sm md:text-base shadow-md"
                 >
                   {loading ? "Criando..." : "Criar Conta"}
                 </button>
@@ -225,7 +225,7 @@ export default function SignupPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="w-full text-slate-600 hover:text-slate-900 font-medium py-2 px-4 border border-slate-300 rounded-lg transition-colors"
+                  className="w-full text-slate-600 hover:text-slate-900 active:scale-95 font-semibold py-3 md:py-4 px-4 border border-slate-300 rounded-xl transition-all duration-200 transform text-sm md:text-base"
                 >
                   Voltar
                 </button>
@@ -236,30 +236,47 @@ export default function SignupPage() {
           {/* Step 3 - Success */}
           {step === 3 && (
             <div className="text-center space-y-6">
-              <div className="text-6xl">🎉</div>
+              <div className="text-6xl md:text-7xl animate-bounce">🎉</div>
               <div className="space-y-2">
-                <h2 className="text-2xl font-bold text-slate-900">Tudo Pronto!</h2>
-                <p className="text-slate-600">Sua conta foi criada com sucesso</p>
+                <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Tudo Pronto!</h2>
+                <p className="text-slate-600 text-sm md:text-base">Sua conta foi criada com sucesso</p>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-300 rounded-xl p-5 md:p-6 space-y-4 shadow-sm">
                 <div className="text-left">
-                  <p className="text-sm font-medium text-slate-900">Email cadastrado:</p>
-                  <p className="text-sm text-slate-600 font-mono">{formData.email}</p>
+                  <p className="text-xs md:text-sm font-semibold text-blue-900 uppercase tracking-wider mb-2">Email cadastrado</p>
+                  <p className="text-sm md:text-base font-semibold text-blue-700 bg-white rounded-lg px-4 py-3 break-all">{formData.email}</p>
                 </div>
+                <div className="h-px bg-blue-200"></div>
                 <div className="text-left">
-                  <p className="text-sm font-medium text-slate-900">Nome:</p>
-                  <p className="text-sm text-slate-600">{formData.name}</p>
+                  <p className="text-xs md:text-sm font-semibold text-blue-900 uppercase tracking-wider mb-2">Nome</p>
+                  <p className="text-sm md:text-base font-semibold text-blue-700 bg-white rounded-lg px-4 py-3">{formData.name}</p>
                 </div>
               </div>
 
               <button
-                onClick={() => {
-                  router.push("/login");
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    const res = await fetch("/api/auth/login", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        email: formData.email,
+                        password: formData.password,
+                      }),
+                    });
+                    if (res.ok) {
+                      router.push("/dashboard");
+                    }
+                  } catch (err) {
+                    console.error(err);
+                  }
                 }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 text-sm md:text-base shadow-lg"
               >
-                Ir para Login
+                {loading ? "Entrando no Painel..." : "Acessar Painel"}
               </button>
             </div>
           )}
