@@ -18,9 +18,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Token inválido" }, { status: 401 });
     }
 
-    if (payload.role !== "LIDER") {
+    if (payload.role !== "DIRETOR_DE_EXPANSAO") {
       return NextResponse.json(
-        { message: "Permissão negada. Apenas líderes podem validar. Role atual: " + payload.role },
+        { message: "Permissão negada. Apenas diretores de expansão podem validar. Role atual: " + payload.role },
         { status: 403 }
       );
     }
