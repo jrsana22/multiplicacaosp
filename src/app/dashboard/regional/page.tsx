@@ -131,8 +131,70 @@ export default function RegionalDashboard() {
   const totalCadastros = cadastros.length;
   const totalVendas = cadastros.filter((c) => c.venda).length;
 
+  // Desafio: 3 cadastros + 3 vendas
+  const desafioCompleto = totalCadastros >= 3 && totalVendas >= 3;
+  const progressoCadastros = Math.min(totalCadastros, 3);
+  const progressoVendas = Math.min(totalVendas, 3);
+
   return (
     <div className="space-y-6">
+      {/* Banner de Desafio */}
+      <div className={`rounded-lg shadow-lg p-6 text-white ${desafioCompleto ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-orange-500 to-red-600'}`}>
+        <div className="space-y-4">
+          <div className="flex justify-between items-start">
+            <div>
+              <h3 className="text-2xl font-black mb-2">🎯 DESAFIO DO MÊS</h3>
+              <p className="text-lg font-bold opacity-90">3 Cadastros + 3 Vendas = SORTEIO DO NOTEBOOK!</p>
+            </div>
+            <div className="text-5xl">
+              {desafioCompleto ? '🏆' : '⚡'}
+            </div>
+          </div>
+
+          {/* Barra de Progresso - Cadastros */}
+          <div>
+            <div className="flex justify-between mb-2">
+              <span className="font-bold">📋 Cadastros</span>
+              <span className="font-black text-lg">{progressoCadastros}/3</span>
+            </div>
+            <div className="bg-white/20 rounded-full h-4 overflow-hidden">
+              <div
+                className="bg-white h-full transition-all duration-500 rounded-full"
+                style={{ width: `${(progressoCadastros / 3) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Barra de Progresso - Vendas */}
+          <div>
+            <div className="flex justify-between mb-2">
+              <span className="font-bold">💰 Vendas</span>
+              <span className="font-black text-lg">{progressoVendas}/3</span>
+            </div>
+            <div className="bg-white/20 rounded-full h-4 overflow-hidden">
+              <div
+                className="bg-white h-full transition-all duration-500 rounded-full"
+                style={{ width: `${(progressoVendas / 3) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="text-center pt-2">
+            {desafioCompleto ? (
+              <p className="text-2xl font-black">✅ PARABÉNS! VOCÊ CONCORRE AO SORTEIO! 🎉</p>
+            ) : (
+              <p className="text-lg">
+                Faltam{' '}
+                {3 - progressoCadastros > 0 && `${3 - progressoCadastros} cadastro${3 - progressoCadastros > 1 ? 's' : ''}`}
+                {3 - progressoCadastros > 0 && 3 - progressoVendas > 0 && ' e '}
+                {3 - progressoVendas > 0 && `${3 - progressoVendas} venda${3 - progressoVendas > 1 ? 's' : ''}`}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Contador */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow p-6 text-white">
@@ -149,7 +211,7 @@ export default function RegionalDashboard() {
 
       {/* Formulário */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-6 text-gray-900">Novo Cadastro</h2>
+        <h2 className="text-xl font-bold mb-6 text-gray-900">📝 Novo Cadastro</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -308,14 +370,20 @@ export default function RegionalDashboard() {
         <ul className="text-sm text-blue-800 space-y-2 list-disc list-inside">
           <li>Preencha o nome do novo consultor cadastrado</li>
           <li>Informe a data em que foi cadastrado</li>
-          <li>
-            Anexe o cabeçalho do contrato ou comprovante de adesão como PDF ou
-            foto
-          </li>
+          <li>Anexe o cabeçalho do contrato ou comprovante de adesão como PDF ou foto</li>
           <li>Se já fez a primeira venda, marque e informe a data</li>
           <li>O líder de estado verá todos os registros em tempo real</li>
-          <li>⚠️ Documentação será validada antes da premiação</li>
+          <li>⚠️ REGRA: Não vale o próprio veículo como venda!</li>
+          <li>✅ Cadastre 3 novos + ajude 3 a vender = CONCORRE AO NOTEBOOK!</li>
         </ul>
+      </div>
+
+      {/* Motivação */}
+      <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg p-6 text-white text-center space-y-3">
+        <p className="text-lg font-bold">Quem multiplica, cresce.</p>
+        <p className="text-lg font-bold">Quem cresce, lidera.</p>
+        <p className="text-lg font-bold">Quem lidera, domina o jogo.</p>
+        <p className="text-2xl font-black mt-4">👉 ESSE MÊS É PRA MULTIPLICAR! 💪</p>
       </div>
     </div>
   );

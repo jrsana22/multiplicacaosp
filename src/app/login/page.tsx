@@ -49,13 +49,42 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-blue-100 to-green-50 p-4">
+      {/* Banner de Desafio */}
+      <div className="max-w-4xl w-full mb-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl shadow-2xl p-6 text-white">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-black">🎯 FOCO NA MULTIPLICAÇÃO!</h2>
+          <p className="text-lg font-bold">PRÊMIO: 1 NOTEBOOK (SORTEIO)</p>
+
+          <div className="bg-white/10 backdrop-blur rounded-lg p-4 my-4 space-y-2 text-left">
+            <h3 className="font-bold text-lg">⚡ DESAFIO DO MÊS:</h3>
+            <div className="space-y-2 ml-4">
+              <p>✅ Cadastre <span className="font-black">3 NOVOS CONSULTORES</span> no mês vigente</p>
+              <p>✅ Ajude <span className="font-black">CADA UM a fazer a 1ª VENDA</span> no mês atual</p>
+              <p className="text-yellow-200">⚠️ REGRA: NÃO VALE o próprio veículo como venda!</p>
+            </div>
+          </div>
+
+          <div className="bg-yellow-300 text-gray-900 rounded-lg p-3 font-bold text-lg">
+            🏆 CUMPRIU? VOCÊ CONCORRE AO SORTEIO DO NOTEBOOK!
+          </div>
+
+          <div className="italic text-sm opacity-95">
+            <p>"Quem multiplica, cresce."</p>
+            <p>"Quem cresce, lidera."</p>
+            <p>"Quem lidera, domina o jogo."</p>
+            <p className="mt-2 font-bold">👉 ESSE MÊS É PRA MULTIPLICAR!</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Login Card */}
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-1 text-gray-900">
           Campanha Consultores
         </h1>
         <p className="text-center text-gray-600 mb-8 text-sm">
-          Sistema de Rastreamento de Cadastros e Vendas
+          Sistema de Rastreamento - Multiplicação
         </p>
 
         {/* Tabs */}
