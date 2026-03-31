@@ -5,6 +5,13 @@ const config: NextConfig = {
   typescript: {
     tsconfigPath: "./tsconfig.json",
   },
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 5,
+  },
+  experimental: {
+    isrMemoryCacheSize: 0,
+  },
 };
 
 export default config;
