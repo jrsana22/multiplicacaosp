@@ -77,6 +77,7 @@ export default function RegionaisPage() {
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Email</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Data de Cadastro</th>
                 <th className="px-6 py-3 text-left font-semibold text-slate-200">Consultores</th>
+                <th className="px-6 py-3 text-right font-semibold text-slate-200">Ações</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700">
@@ -97,6 +98,11 @@ export default function RegionaisPage() {
                     <span className="px-3 py-1 rounded-full text-sm font-semibold bg-blue-900 text-blue-200">
                       {regional.cadastros}
                     </span>
+                  </td>
+                  <td className="px-6 py-3 text-right">
+                    <button className="text-red-400 hover:text-red-300 text-lg transition-colors" title="Deletar">
+                      🗑️
+                    </button>
                   </td>
                 </tr>
               ))}
