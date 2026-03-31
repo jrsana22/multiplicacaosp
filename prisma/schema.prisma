@@ -6,37 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  REGIONAL
-  LIDER
-}
-
-enum StatusCadastro {
-  PENDENTE
-  VALIDADO
-  REJEITADO
-}
-
-enum StatusVenda {
-  PENDENTE
-  VALIDADO
-  REJEITADO
-}
-
-enum StatusValidacao {
-  APROVADO
-  REJEITADO
-}
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   password  String
-  role      Role     @default(REGIONAL)
+  role      String   @default("REGIONAL")
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -56,10 +35,9 @@ model Cadastro {
   regionalId              String
   regional                User     @relation(fields: [regionalId], references: [id], onDelete: Cascade)
 
-  vendaId                 String?  @unique
-  venda                   Venda?   @relation(fields: [vendaId], references: [id])
+  venda                   Venda?
 
-  status                  StatusCadastro @default(PENDENTE)
+  status                  String @default("PENDENTE")
 
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
@@ -76,7 +54,7 @@ model Venda {
   cadastroId              String   @unique
   cadastro                Cadastro @relation(fields: [cadastroId], references: [id], onDelete: Cascade)
 
-  status                  StatusVenda @default(PENDENTE)
+  status                  String @default("PENDENTE")
 
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
@@ -97,7 +75,7 @@ model Validacao {
   validadorId String
   validador   User     @relation(fields: [validadorId], references: [id], onDelete: Cascade)
 
-  status      StatusValidacao
+  status      String
   comentario  String?
 
   createdAt   DateTime @default(now())
