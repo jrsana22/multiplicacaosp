@@ -17,7 +17,8 @@ export default async function DashboardLayout({
       <nav className="bg-slate-800/50 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">💰</span>
               <h1 className="text-2xl font-bold text-white">
                 Campanha Consultores
               </h1>
