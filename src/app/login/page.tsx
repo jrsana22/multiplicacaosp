@@ -80,14 +80,14 @@ export default function LoginPage() {
             <div className="flex items-start gap-4">
               <div className="text-3xl">💰</div>
               <div>
-                <h3 className="font-bold text-white mb-1">Gere 3 Vendas</h3>
-                <p className="text-slate-400 text-sm">A meta é que venda nas primeiras ações</p>
+                <h3 className="font-bold text-white mb-1">Acompanhe o consultor na primeira venda</h3>
+                <p className="text-slate-400 text-sm">Esteja lado a lado nos primeiros passos</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <div className="text-3xl">🏆</div>
               <div>
-                <h3 className="font-bold text-white mb-1">Concorra ao Prêmio</h3>
+                <h3 className="font-bold text-white mb-1">Registre e concorra ao Prêmio</h3>
                 <p className="text-slate-400 text-sm">1 Notebook no sorteio</p>
               </div>
             </div>
