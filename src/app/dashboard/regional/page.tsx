@@ -130,125 +130,114 @@ export default function RegionalDashboard() {
 
   const totalCadastros = cadastros.length;
   const totalVendas = cadastros.filter((c) => c.venda).length;
-
-  // Desafio: 3 cadastros + 3 vendas
   const desafioCompleto = totalCadastros >= 3 && totalVendas >= 3;
-  const progressoCadastros = Math.min(totalCadastros, 3);
-  const progressoVendas = Math.min(totalVendas, 3);
 
   return (
     <div className="space-y-6">
-      {/* Banner de Desafio */}
-      <div className={`rounded-lg shadow-lg p-6 text-white ${desafioCompleto ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-orange-500 to-red-600'}`}>
-        <div className="space-y-4">
-          <div className="flex justify-between items-start">
-            <div>
-              <h3 className="text-2xl font-black mb-2">🎯 DESAFIO DO MÊS</h3>
-              <p className="text-lg font-bold opacity-90">3 Cadastros + 3 Vendas = SORTEIO DO NOTEBOOK!</p>
-            </div>
-            <div className="text-5xl">
-              {desafioCompleto ? '🏆' : '⚡'}
-            </div>
-          </div>
-
-          {/* Barra de Progresso - Cadastros */}
+      {/* Progress Banner */}
+      <div className={`rounded-xl p-8 ${desafioCompleto ? 'bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200' : 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200'}`}>
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <div className="flex justify-between mb-2">
-              <span className="font-bold">📋 Cadastros</span>
-              <span className="font-black text-lg">{progressoCadastros}/3</span>
+            <h2 className="text-2xl font-bold text-slate-900 mb-1">Desafio do Mês</h2>
+            <p className="text-slate-600">3 Cadastros + 3 Vendas = Sorteio do Notebook</p>
+          </div>
+          <div className="text-5xl">{desafioCompleto ? '🏆' : '⚡'}</div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          {/* Cadastros Progress */}
+          <div>
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="text-slate-700 font-medium">Cadastros</span>
+              <span className={`text-2xl font-bold ${totalCadastros >= 3 ? 'text-green-600' : 'text-slate-900'}`}>
+                {Math.min(totalCadastros, 3)}/3
+              </span>
             </div>
-            <div className="bg-white/20 rounded-full h-4 overflow-hidden">
+            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <div
-                className="bg-white h-full transition-all duration-500 rounded-full"
-                style={{ width: `${(progressoCadastros / 3) * 100}%` }}
+                className={`h-full transition-all duration-500 ${totalCadastros >= 3 ? 'bg-green-500' : 'bg-blue-500'}`}
+                style={{ width: `${(Math.min(totalCadastros, 3) / 3) * 100}%` }}
               />
             </div>
           </div>
 
-          {/* Barra de Progresso - Vendas */}
+          {/* Vendas Progress */}
           <div>
-            <div className="flex justify-between mb-2">
-              <span className="font-bold">💰 Vendas</span>
-              <span className="font-black text-lg">{progressoVendas}/3</span>
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="text-slate-700 font-medium">Vendas</span>
+              <span className={`text-2xl font-bold ${totalVendas >= 3 ? 'text-green-600' : 'text-slate-900'}`}>
+                {Math.min(totalVendas, 3)}/3
+              </span>
             </div>
-            <div className="bg-white/20 rounded-full h-4 overflow-hidden">
+            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
               <div
-                className="bg-white h-full transition-all duration-500 rounded-full"
-                style={{ width: `${(progressoVendas / 3) * 100}%` }}
+                className={`h-full transition-all duration-500 ${totalVendas >= 3 ? 'bg-green-500' : 'bg-blue-500'}`}
+                style={{ width: `${(Math.min(totalVendas, 3) / 3) * 100}%` }}
               />
             </div>
-          </div>
-
-          {/* Status */}
-          <div className="text-center pt-2">
-            {desafioCompleto ? (
-              <p className="text-2xl font-black">✅ PARABÉNS! VOCÊ CONCORRE AO SORTEIO! 🎉</p>
-            ) : (
-              <p className="text-lg">
-                Faltam{' '}
-                {3 - progressoCadastros > 0 && `${3 - progressoCadastros} cadastro${3 - progressoCadastros > 1 ? 's' : ''}`}
-                {3 - progressoCadastros > 0 && 3 - progressoVendas > 0 && ' e '}
-                {3 - progressoVendas > 0 && `${3 - progressoVendas} venda${3 - progressoVendas > 1 ? 's' : ''}`}
-              </p>
-            )}
           </div>
         </div>
+
+        {desafioCompleto && (
+          <div className="mt-6 p-4 bg-green-100 border border-green-300 rounded-lg text-center">
+            <p className="text-green-900 font-bold">✅ Parabéns! Você concorre ao sorteio do notebook!</p>
+          </div>
+        )}
       </div>
 
-      {/* Contador */}
+      {/* Metrics Cards */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow p-6 text-white">
-          <div className="text-sm font-medium opacity-90">Cadastros</div>
-          <div className="text-4xl font-bold mt-2">{totalCadastros}</div>
-          <div className="text-xs opacity-75 mt-1">Novos consultores</div>
+        <div className="bg-white rounded-lg p-6 border border-slate-200">
+          <p className="text-slate-600 text-sm font-medium mb-2">Total de Cadastros</p>
+          <p className="text-4xl font-bold text-slate-900">{totalCadastros}</p>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow p-6 text-white">
-          <div className="text-sm font-medium opacity-90">Vendas</div>
-          <div className="text-4xl font-bold mt-2">{totalVendas}</div>
-          <div className="text-xs opacity-75 mt-1">Primeiras vendas</div>
+        <div className="bg-white rounded-lg p-6 border border-slate-200">
+          <p className="text-slate-600 text-sm font-medium mb-2">Total de Vendas</p>
+          <p className="text-4xl font-bold text-slate-900">{totalVendas}</p>
         </div>
       </div>
 
-      {/* Formulário */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-6 text-gray-900">📝 Novo Cadastro</h2>
+      {/* Form Section */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8">
+        <h3 className="text-xl font-bold text-slate-900 mb-6">Registrar Novo Cadastro</h3>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name and Date Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nome do Consultor *
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Nome do Consultor
               </label>
               <input
                 type="text"
                 name="nomeConsultor"
                 value={formData.nomeConsultor}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Nome completo"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Data do Cadastro *
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Data do Cadastro
               </label>
               <input
                 type="date"
                 name="dataCadastro"
                 value={formData.dataCadastro}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
           </div>
 
-          {/* Upload de comprovação */}
+          {/* File Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              📎 Comprovação (Cabeçalho do contrato, PDF ou foto)
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Comprovação (PDF, JPG ou PNG)
             </label>
             <div className="flex items-center gap-3">
               <input
@@ -256,54 +245,55 @@ export default function RegionalDashboard() {
                 name="comprovacao"
                 onChange={handleChange}
                 accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                className="flex-1 px-4 py-3 border border-slate-200 rounded-lg text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {fileUploaded && (
-                <span className="text-green-600 font-medium text-sm">✓ {fileName}</span>
+                <span className="text-green-600 text-sm font-medium">✓ {fileName}</span>
               )}
             </div>
-            <p className="text-xs text-gray-500 mt-1">
-              Máx 10MB. Formatos: PDF, JPG, PNG, DOC
-            </p>
+            <p className="text-xs text-slate-500 mt-2">Máx 10MB</p>
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
+          {/* Venda Checkbox */}
+          <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
             <input
               type="checkbox"
               name="fezVenda"
               checked={formData.fezVenda}
               onChange={handleChange}
-              className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+              className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
             />
-            <label className="text-sm font-medium text-gray-700">
-              ✅ Fez a primeira venda?
+            <label className="font-medium text-slate-700">
+              Já fez a primeira venda?
             </label>
           </div>
 
+          {/* Venda Date */}
           {formData.fezVenda && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Data da Venda *
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Data da Venda
               </label>
               <input
                 type="date"
                 name="dataVenda"
                 value={formData.dataVenda}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
           )}
 
+          {/* Messages */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
               {success}
             </div>
           )}
@@ -311,80 +301,50 @@ export default function RegionalDashboard() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
-            {loading ? "Salvando..." : "💾 Salvar Cadastro"}
+            {loading ? "Salvando..." : "Salvar Cadastro"}
           </button>
         </form>
       </div>
 
-      {/* Listagem de cadastros */}
+      {/* Listings Section */}
       {totalCadastros > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-bold mb-4 text-gray-900">
+        <div className="bg-white rounded-xl border border-slate-200 p-8">
+          <h3 className="text-xl font-bold text-slate-900 mb-6">
             Meus Cadastros ({totalCadastros})
-          </h2>
+          </h3>
           <div className="space-y-3">
             {cadastros.map((cadastro) => (
               <div
                 key={cadastro.id}
-                className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition"
+                className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
               >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-900">
-                      {cadastro.nomeConsultor}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      📅 Cadastrado em{" "}
-                      {new Date(cadastro.dataCadastro).toLocaleDateString("pt-BR")}
-                    </p>
+                <div className="flex-1">
+                  <h4 className="font-medium text-slate-900">
+                    {cadastro.nomeConsultor}
+                  </h4>
+                  <div className="flex gap-4 mt-2 text-sm text-slate-600">
+                    <span>📅 {new Date(cadastro.dataCadastro).toLocaleDateString("pt-BR")}</span>
                     {cadastro.venda && (
-                      <p className="text-sm text-green-700 font-medium">
-                        ✅ Venda em{" "}
-                        {new Date(cadastro.venda.dataVenda).toLocaleDateString("pt-BR")}
-                      </p>
+                      <span className="text-green-700">✅ Venda: {new Date(cadastro.venda.dataVenda).toLocaleDateString("pt-BR")}</span>
                     )}
                   </div>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      cadastro.status === "PENDENTE"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : cadastro.status === "VALIDADO"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {cadastro.status}
-                  </span>
                 </div>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  cadastro.status === "PENDENTE"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : cadastro.status === "VALIDADO"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                }`}>
+                  {cadastro.status}
+                </span>
               </div>
             ))}
           </div>
         </div>
       )}
-
-      {/* Info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="font-bold text-blue-900 mb-3">ℹ️ Como funciona?</h3>
-        <ul className="text-sm text-blue-800 space-y-2 list-disc list-inside">
-          <li>Preencha o nome do novo consultor cadastrado</li>
-          <li>Informe a data em que foi cadastrado</li>
-          <li>Anexe o cabeçalho do contrato ou comprovante de adesão como PDF ou foto</li>
-          <li>Se já fez a primeira venda, marque e informe a data</li>
-          <li>O líder de estado verá todos os registros em tempo real</li>
-          <li>⚠️ REGRA: Não vale o próprio veículo como venda!</li>
-          <li>✅ Cadastre 3 novos + ajude 3 a vender = CONCORRE AO NOTEBOOK!</li>
-        </ul>
-      </div>
-
-      {/* Motivação */}
-      <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg p-6 text-white text-center space-y-3">
-        <p className="text-lg font-bold">Quem multiplica, cresce.</p>
-        <p className="text-lg font-bold">Quem cresce, lidera.</p>
-        <p className="text-lg font-bold">Quem lidera, domina o jogo.</p>
-        <p className="text-2xl font-black mt-4">👉 ESSE MÊS É PRA MULTIPLICAR! 💪</p>
-      </div>
     </div>
   );
 }

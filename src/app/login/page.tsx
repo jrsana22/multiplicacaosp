@@ -49,148 +49,147 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 via-blue-100 to-green-50 p-4">
-      {/* Banner de Desafio */}
-      <div className="max-w-4xl w-full mb-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl shadow-2xl p-6 text-white">
-        <div className="text-center space-y-3">
-          <h2 className="text-3xl font-black">🎯 FOCO NA MULTIPLICAÇÃO!</h2>
-          <p className="text-lg font-bold">PRÊMIO: 1 NOTEBOOK (SORTEIO)</p>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      {/* Grid Background */}
+      <div className="fixed inset-0 bg-grid-pattern opacity-5"></div>
 
-          <div className="bg-white/10 backdrop-blur rounded-lg p-4 my-4 space-y-2 text-left">
-            <h3 className="font-bold text-lg">⚡ DESAFIO DO MÊS:</h3>
-            <div className="space-y-2 ml-4">
-              <p>✅ Cadastre <span className="font-black">3 NOVOS CONSULTORES</span> no mês vigente</p>
-              <p>✅ Ajude <span className="font-black">CADA UM a fazer a 1ª VENDA</span> no mês atual</p>
-              <p className="text-yellow-200">⚠️ REGRA: NÃO VALE o próprio veículo como venda!</p>
+      <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Lado Esquerdo - Proposta de Valor */}
+        <div className="hidden md:block space-y-8">
+          <div className="space-y-4">
+            <h1 className="text-5xl font-black text-white leading-tight">
+              Foco na
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                Multiplicação
+              </span>
+            </h1>
+            <p className="text-xl text-slate-300 leading-relaxed">
+              3 Cadastros + 3 Vendas = Sorteio de 1 Notebook
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <div className="text-3xl">📋</div>
+              <div>
+                <h3 className="font-bold text-white mb-1">Cadastre 3 Consultores</h3>
+                <p className="text-slate-400 text-sm">No mês vigente</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="text-3xl">💰</div>
+              <div>
+                <h3 className="font-bold text-white mb-1">Gere 3 Vendas</h3>
+                <p className="text-slate-400 text-sm">Primeira de cada novo consultor</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="text-3xl">🏆</div>
+              <div>
+                <h3 className="font-bold text-white mb-1">Concorra ao Prêmio</h3>
+                <p className="text-slate-400 text-sm">1 Notebook no sorteio</p>
+              </div>
             </div>
           </div>
 
-          <div className="bg-yellow-300 text-gray-900 rounded-lg p-3 font-bold text-lg">
-            🏆 CUMPRIU? VOCÊ CONCORRE AO SORTEIO DO NOTEBOOK!
-          </div>
-
-          <div className="italic text-sm opacity-95">
-            <p>"Quem multiplica, cresce."</p>
-            <p>"Quem cresce, lidera."</p>
-            <p>"Quem lidera, domina o jogo."</p>
-            <p className="mt-2 font-bold">👉 ESSE MÊS É PRA MULTIPLICAR!</p>
+          <div className="pt-8 border-t border-slate-700">
+            <p className="text-slate-400 text-sm italic leading-relaxed">
+              "Quem multiplica, cresce. Quem cresce, lidera. Quem lidera, domina o jogo."
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Login Card */}
-      <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-1 text-gray-900">
-          Campanha Consultores
-        </h1>
-        <p className="text-center text-gray-600 mb-8 text-sm">
-          Sistema de Rastreamento - Multiplicação
-        </p>
+        {/* Lado Direito - Login */}
+        <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-8">
+          {/* Header */}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-slate-900">Bem-vindo</h2>
+            <p className="text-slate-500">Faça login para acompanhar seu desempenho</p>
+          </div>
 
-        {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-gray-200">
-          <button className="flex-1 px-4 py-2 text-blue-600 border-b-2 border-blue-600 font-medium">
-            Fazer Login
-          </button>
-          <Link href="/signup">
-            <button className="flex-1 px-4 py-2 text-gray-600 hover:text-gray-900 font-medium">
-              Primeiro Acesso
+          {/* Tabs */}
+          <div className="flex gap-1 bg-slate-100 p-1 rounded-lg">
+            <button className="flex-1 px-4 py-2 bg-white text-blue-600 font-medium rounded-md shadow-sm">
+              Login
             </button>
-          </Link>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="seu@email.com"
-              required
-            />
+            <Link href="/signup" className="flex-1">
+              <button className="w-full px-4 py-2 text-slate-600 font-medium hover:bg-slate-50 rounded-md transition-colors">
+                Primeira Vez
+              </button>
+            </Link>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Senha
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="••••••••"
-              required
-            />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="seu@email.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                Senha
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              {loading ? "Entrando..." : "Entrar"}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-slate-500">Credenciais de teste</span>
+            </div>
           </div>
 
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-          >
-            {loading ? "Entrando..." : "Entrar"}
-          </button>
-        </form>
-
-        {/* Credenciais de Teste */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg text-sm text-gray-700">
-          <p className="font-bold mb-2">🧪 Credenciais de Teste:</p>
-          <div className="space-y-2 text-xs">
+          {/* Test Credentials */}
+          <div className="bg-slate-50 rounded-lg p-4 space-y-3 text-sm">
             <div>
-              <p className="font-medium text-gray-900">Líder:</p>
-              <p className="text-gray-600">
-                lider@test.com / senha123
-              </p>
+              <p className="font-medium text-slate-900">Líder</p>
+              <p className="text-slate-600">lider@test.com / senha123</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900">Regional 1:</p>
-              <p className="text-gray-600">
-                regional1@test.com / senha123
-              </p>
+              <p className="font-medium text-slate-900">Regional 1</p>
+              <p className="text-slate-600">regional1@test.com / senha123</p>
             </div>
             <div>
-              <p className="font-medium text-gray-900">Regional 2:</p>
-              <p className="text-gray-600">
-                regional2@test.com / senha123
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Rodapé Explicativo */}
-        <div className="mt-6 pt-6 border-t border-gray-200 space-y-3 text-xs text-gray-600">
-          <div className="flex gap-2">
-            <span className="text-lg">📝</span>
-            <div>
-              <p className="font-medium text-gray-900">Primeira Vez?</p>
-              <p>Clique em "Primeiro Acesso" para criar sua senha</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <span className="text-lg">🔐</span>
-            <div>
-              <p className="font-medium text-gray-900">Já tem Conta?</p>
-              <p>Use seu email e senha para fazer login</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <span className="text-lg">⚠️</span>
-            <div>
-              <p className="font-medium text-gray-900">Problemas?</p>
-              <p>Entre em contato com seu líder de equipe</p>
+              <p className="font-medium text-slate-900">Regional 2</p>
+              <p className="text-slate-600">regional2@test.com / senha123</p>
             </div>
           </div>
         </div>
