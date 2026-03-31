@@ -30,8 +30,10 @@ export default function AdminPage() {
     if (!confirm(`Tem certeza que deseja deletar o cadastro de ${name}?`)) return;
 
     try {
-      const res = await fetch(`/api/cadastros/${id}`, {
-        method: "DELETE",
+      const res = await fetch("/api/delete-cadastro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
       });
 
       if (res.ok) {

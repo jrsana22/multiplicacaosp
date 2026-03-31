@@ -21,8 +21,10 @@ export default function RegionaisPage() {
     if (!confirm(`Tem certeza que deseja deletar ${name}?`)) return;
 
     try {
-      const res = await fetch(`/api/admin/regionais/${id}`, {
-        method: "DELETE",
+      const res = await fetch("/api/delete-regional", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
       });
 
       if (res.ok) {
