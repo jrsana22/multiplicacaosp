@@ -268,15 +268,18 @@ export default function SignupPage() {
                     });
                     if (res.ok) {
                       router.push("/dashboard");
+                    } else {
+                      setLoading(false);
                     }
                   } catch (err) {
                     console.error(err);
+                    setLoading(false);
                   }
                 }}
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform active:scale-95 text-sm md:text-base shadow-md"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform active:scale-95 text-sm md:text-base shadow-md"
               >
-                {loading ? "Entrar no Painel" : "Acessar Painel"}
+                {loading ? "Acessando..." : "Acessar Painel"}
               </button>
             </div>
           )}
