@@ -94,7 +94,7 @@ export default function RegionalDashboard() {
       let urlComprovacaoVenda = "";
 
       // Upload comprovação do cadastro
-      if (formData.comprovacao && formData.fezVenda) {
+      if (formData.comprovacao) {
         const formDataUpload = new FormData();
         formDataUpload.append("file", formData.comprovacao);
 
@@ -111,7 +111,9 @@ export default function RegionalDashboard() {
 
         const uploadData = await uploadRes.json();
         urlComprovacaoCadastro = uploadData.url;
-        urlComprovacaoVenda = uploadData.url; // Mesma comprovação para venda
+        if (formData.fezVenda) {
+          urlComprovacaoVenda = uploadData.url;
+        }
       }
 
       const res = await fetch("/api/cadastros", {
