@@ -1,0 +1,11 @@
+.env
+.env.local
+.git
+.gitignore
+README.md
+DEPLOYMENT.md
+DEPLOY_VERCEL.md
+VERCEL_DEPLOY_CONFIG.md
+node_modules
+.next
+prisma/dev.db
