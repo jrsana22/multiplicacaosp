@@ -81,7 +81,7 @@ export default function LoginPage() {
               <div className="text-3xl">💰</div>
               <div>
                 <h3 className="font-bold text-white mb-1">Gere 3 Vendas</h3>
-                <p className="text-slate-400 text-sm">Primeira de cada novo consultor</p>
+                <p className="text-slate-400 text-sm">A meta é que venda nas primeiras ações</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
