@@ -7,15 +7,15 @@ interface Cadastro {
   nomeConsultor: string;
   dataCadastro: string;
   status: string;
-  venda?: {
-    dataVenda: string;
-    status: string;
-  } | null;
   regional: {
     id: string;
     name: string;
-    email: string;
   };
+  venda?: {
+    id: string;
+    dataVenda: string;
+    status: string;
+  } | null;
 }
 
 interface RankingItem {
@@ -31,6 +31,7 @@ export default function LiderDashboard() {
   const [ranking, setRanking] = useState<RankingItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"ranking" | "validacao">("ranking");
+  const [validatingId, setValidatingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCadastros();
@@ -68,8 +69,7 @@ export default function LiderDashboard() {
             item.vendas += 1;
           }
 
-          item.conversao =
-            Math.round((item.vendas / item.cadastros) * 100) || 0;
+          item.conversao = Math.round((item.vendas / item.cadastros) * 100) || 0;
         });
 
         setRanking(
@@ -85,153 +85,185 @@ export default function LiderDashboard() {
     }
   };
 
+  const handleValidate = async (cadastroId: string, approve: boolean) => {
+    setValidatingId(cadastroId);
+    try {
+      const res = await fetch("/api/validacoes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cadastroId,
+          status: approve ? "APROVADO" : "REJEITADO",
+        }),
+      });
+
+      if (res.ok) {
+        fetchCadastros();
+      }
+    } catch (error) {
+      console.error("Erro ao validar:", error);
+    } finally {
+      setValidatingId(null);
+    }
+  };
+
+  const pendingCadastros = cadastros.filter((c) => c.status === "PENDENTE");
+
   if (loading) {
-    return <div className="text-center py-8">Carregando...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <p className="text-white">Carregando...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
-        <button
-          onClick={() => setActiveTab("ranking")}
-          className={`px-4 py-2 font-medium ${
-            activeTab === "ranking"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "text-gray-600"
-          }`}
-        >
-          Ranking
-        </button>
-        <button
-          onClick={() => setActiveTab("validacao")}
-          className={`px-4 py-2 font-medium ${
-            activeTab === "validacao"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "text-gray-600"
-          }`}
-        >
-          Validação ({cadastros.filter((c) => c.status === "PENDENTE").length})
-        </button>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold text-white">Painel de Liderança</h1>
+          <p className="text-slate-400">Acompanhe e valide o desempenho da equipe</p>
+        </div>
 
-      {/* Ranking Tab */}
-      {activeTab === "ranking" && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="p-6">
-            <h2 className="text-xl font-bold mb-4 text-gray-900">Ranking</h2>
+        {/* Tabs */}
+        <div className="flex gap-2 bg-slate-800/50 p-1 rounded-lg w-fit">
+          <button
+            onClick={() => setActiveTab("ranking")}
+            className={`px-6 py-2 rounded-md font-medium transition-all ${
+              activeTab === "ranking"
+                ? "bg-blue-600 text-white"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            Ranking
+          </button>
+          <button
+            onClick={() => setActiveTab("validacao")}
+            className={`px-6 py-2 rounded-md font-medium transition-all flex items-center gap-2 ${
+              activeTab === "validacao"
+                ? "bg-blue-600 text-white"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            Validações
+            {pendingCadastros.length > 0 && (
+              <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                {pendingCadastros.length}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {/* Ranking Tab */}
+        {activeTab === "ranking" && (
+          <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-6">
+            <h2 className="text-xl font-bold text-white mb-6">Desempenho por Regional</h2>
+
             {ranking.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">
-                Nenhum cadastro ainda
-              </p>
+              <p className="text-slate-400 text-center py-8">Nenhum cadastro ainda</p>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-100">
-                    <tr>
-                      <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">
-                        Regional
-                      </th>
-                      <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700">
-                        Cadastros
-                      </th>
-                      <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700">
-                        Vendas
-                      </th>
-                      <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700">
-                        Conversão
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {ranking.map((item, idx) => (
-                      <tr key={item.regionalId} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm">
-                          <span className="font-medium text-gray-900">
-                            {idx + 1}. {item.regional}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            {item.cadastros}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            {item.vendas}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-center">
-                          <span className="text-sm font-semibold text-gray-900">
-                            {item.conversao}%
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-3">
+                {ranking.map((item, idx) => (
+                  <div
+                    key={item.regionalId}
+                    className="bg-slate-700/30 border border-slate-600 rounded-lg p-5 hover:bg-slate-700/50 transition-colors"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-sm">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <p className="font-bold text-white">{item.regional}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="bg-slate-800 rounded-lg p-4 text-center">
+                        <p className="text-slate-400 text-sm mb-1">Cadastros</p>
+                        <p className="text-2xl font-bold text-blue-400">{item.cadastros}</p>
+                      </div>
+                      <div className="bg-slate-800 rounded-lg p-4 text-center">
+                        <p className="text-slate-400 text-sm mb-1">Vendas</p>
+                        <p className="text-2xl font-bold text-green-400">{item.vendas}</p>
+                      </div>
+                      <div className="bg-slate-800 rounded-lg p-4 text-center">
+                        <p className="text-slate-400 text-sm mb-1">Conversão</p>
+                        <p className="text-2xl font-bold text-cyan-400">{item.conversao}%</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Validação Tab */}
-      {activeTab === "validacao" && (
-        <div className="space-y-4">
-          {cadastros.length === 0 ? (
-            <div className="bg-white rounded-lg shadow p-6 text-center text-gray-500">
-              Nenhum cadastro para validar
-            </div>
-          ) : (
-            cadastros.map((cadastro) => (
-              <div
-                key={cadastro.id}
-                className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-400"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-900">
-                      {cadastro.nomeConsultor}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Regional: {cadastro.regional.name}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Cadastrado em:{" "}
-                      {new Date(cadastro.dataCadastro).toLocaleDateString(
-                        "pt-BR"
-                      )}
-                    </p>
-                    {cadastro.venda && (
-                      <p className="text-sm text-green-700">
-                        ✅ Venda em:{" "}
-                        {new Date(cadastro.venda.dataVenda).toLocaleDateString(
-                          "pt-BR"
-                        )}
-                      </p>
-                    )}
-                    <span
-                      className={`inline-block mt-2 px-2 py-1 rounded text-xs font-medium ${
-                        cadastro.status === "PENDENTE"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : cadastro.status === "VALIDADO"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {cadastro.status}
-                    </span>
-                  </div>
-                  <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium">
-                    Validar
-                  </button>
-                </div>
+        {/* Validação Tab */}
+        {activeTab === "validacao" && (
+          <div className="space-y-4">
+            {pendingCadastros.length === 0 ? (
+              <div className="bg-slate-800/30 border border-slate-700 rounded-xl p-8 text-center">
+                <p className="text-slate-400">✅ Todos os cadastros foram validados!</p>
               </div>
-            ))
-          )}
-        </div>
-      )}
+            ) : (
+              pendingCadastros.map((cadastro) => (
+                <div
+                  key={cadastro.id}
+                  className="bg-slate-800/30 border border-slate-700 rounded-xl p-6 hover:border-slate-600 transition-colors"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-1">
+                        {cadastro.nomeConsultor}
+                      </h3>
+                      <p className="text-slate-400 text-sm mb-3">
+                        Regional: {cadastro.regional.name}
+                      </p>
+
+                      <div className="flex flex-wrap gap-4 text-sm">
+                        <div>
+                          <p className="text-slate-500">Cadastrado</p>
+                          <p className="text-white font-medium">
+                            {new Date(cadastro.dataCadastro).toLocaleDateString("pt-BR")}
+                          </p>
+                        </div>
+                        {cadastro.venda && (
+                          <div>
+                            <p className="text-slate-500">Primeira Venda</p>
+                            <p className="text-green-400 font-medium">
+                              ✅ {new Date(cadastro.venda.dataVenda).toLocaleDateString("pt-BR")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 ml-4">
+                      <button
+                        onClick={() => handleValidate(cadastro.id, true)}
+                        disabled={validatingId === cadastro.id}
+                        className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-600 text-white font-medium rounded-lg transition-colors text-sm"
+                      >
+                        ✓ Aprovar
+                      </button>
+                      <button
+                        onClick={() => handleValidate(cadastro.id, false)}
+                        disabled={validatingId === cadastro.id}
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-600 text-white font-medium rounded-lg transition-colors text-sm"
+                      >
+                        ✕ Rejeitar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -167,31 +167,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-slate-500">Credenciais de teste</span>
-            </div>
-          </div>
-
-          {/* Test Credentials */}
-          <div className="bg-slate-50 rounded-lg p-4 space-y-3 text-sm">
-            <div>
-              <p className="font-medium text-slate-900">Líder</p>
-              <p className="text-slate-600">lider@test.com / senha123</p>
-            </div>
-            <div>
-              <p className="font-medium text-slate-900">Regional 1</p>
-              <p className="text-slate-600">regional1@test.com / senha123</p>
-            </div>
-            <div>
-              <p className="font-medium text-slate-900">Regional 2</p>
-              <p className="text-slate-600">regional2@test.com / senha123</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
