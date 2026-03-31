@@ -31,6 +31,7 @@ model Cadastro {
   nomeConsultor           String
   dataCadastro            DateTime
   comprovacaoCadastro     String?
+  urlComprovacaoCadastro  String?
 
   regionalId              String
   regional                User     @relation(fields: [regionalId], references: [id], onDelete: Cascade)
@@ -50,6 +51,7 @@ model Venda {
   id                      String   @id @default(cuid())
   dataVenda               DateTime
   comprovacaoVenda        String?
+  urlComprovacaoVenda     String?
 
   cadastroId              String   @unique
   cadastro                Cadastro @relation(fields: [cadastroId], references: [id], onDelete: Cascade)

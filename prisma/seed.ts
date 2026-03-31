@@ -13,12 +13,21 @@ async function main() {
   console.log("🗑️  Dados antigos deletados");
 
   // Create users
-  const lider = await prisma.user.create({
+  const admin = await prisma.user.create({
     data: {
-      email: "lider@test.com",
+      email: "jrsana@yahoo.com.br",
+      password: await bcrypt.hash("senha123", 10),
+      name: "Junior Sana - Admin",
+      role: "DIRETOR_DE_EXPANSAO",
+    },
+  });
+
+  const diretor = await prisma.user.create({
+    data: {
+      email: "empreendacomerivaldo@gmail.com",
       password: await bcrypt.hash("senha123", 10),
       name: "Erivaldo Filho",
-      role: "LIDER",
+      role: "DIRETOR_DE_EXPANSAO",
     },
   });
 
@@ -47,7 +56,7 @@ async function main() {
     data: {
       nomeConsultor: "João Silva",
       dataCadastro: new Date(2026, 2, 25),
-      regionalId: regional1.id,
+      regionalId: regional1.id, // regional1 ainda existe
       venda: {
         create: {
           dataVenda: new Date(2026, 2, 28),

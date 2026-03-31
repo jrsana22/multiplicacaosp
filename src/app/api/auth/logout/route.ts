@@ -4,10 +4,7 @@ import { clearTokenCookie } from "@/lib/auth";
 export async function POST() {
   await clearTokenCookie();
 
-  const response = NextResponse.json(
-    { message: "Logout realizado com sucesso" },
-    { status: 200 }
-  );
+  const response = NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"));
 
   response.cookies.delete("auth_token");
 
