@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const { nomeConsultor, dataCadastro, fezVenda, dataVenda } = body;
+    const { nomeConsultor, dataCadastro, fezVenda, dataVenda, urlComprovacaoCadastro, urlComprovacaoVenda } = body;
 
     if (!nomeConsultor || !dataCadastro) {
       return NextResponse.json(
@@ -86,11 +86,13 @@ export async function POST(request: NextRequest) {
       data: {
         nomeConsultor,
         dataCadastro: new Date(dataCadastro),
+        urlComprovacaoCadastro: urlComprovacaoCadastro || null,
         regionalId: payload.userId,
         venda: fezVenda
           ? {
               create: {
                 dataVenda: new Date(dataVenda),
+                urlComprovacaoVenda: urlComprovacaoVenda || null,
                 status: "PENDENTE",
               },
             }

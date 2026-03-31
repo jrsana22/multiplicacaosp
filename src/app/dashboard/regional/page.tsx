@@ -90,6 +90,30 @@ export default function RegionalDashboard() {
         return;
       }
 
+      let urlComprovacaoCadastro = "";
+      let urlComprovacaoVenda = "";
+
+      // Upload comprovação do cadastro
+      if (formData.comprovacao && formData.fezVenda) {
+        const formDataUpload = new FormData();
+        formDataUpload.append("file", formData.comprovacao);
+
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formDataUpload,
+        });
+
+        if (!uploadRes.ok) {
+          setError("Erro ao fazer upload do arquivo");
+          setLoading(false);
+          return;
+        }
+
+        const uploadData = await uploadRes.json();
+        urlComprovacaoCadastro = uploadData.url;
+        urlComprovacaoVenda = uploadData.url; // Mesma comprovação para venda
+      }
+
       const res = await fetch("/api/cadastros", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,7 +124,8 @@ export default function RegionalDashboard() {
           dataVenda: formData.fezVenda
             ? new Date(formData.dataVenda).toISOString()
             : undefined,
-          comprovacao: fileUploaded ? fileName : undefined,
+          urlComprovacaoCadastro: urlComprovacaoCadastro || undefined,
+          urlComprovacaoVenda: urlComprovacaoVenda || undefined,
         }),
       });
 

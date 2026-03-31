@@ -109,13 +109,13 @@ export default function LoginPage() {
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-1 bg-slate-100 p-1 rounded-lg">
-            <button className="flex-1 px-4 py-2 bg-white text-blue-600 font-medium rounded-md shadow-sm">
-              Login
+          <div className="flex gap-3">
+            <button className="flex-1 px-4 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200 transform hover:scale-105">
+              🔒 Login
             </button>
             <Link href="/signup" className="flex-1">
-              <button className="w-full px-4 py-2 text-slate-600 font-medium hover:bg-slate-50 rounded-md transition-colors">
-                Primeira Vez
+              <button className="w-full px-4 py-3 bg-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-300 transition-all duration-200 transform hover:scale-105">
+                ✨ Primeira Vez
               </button>
             </Link>
           </div>
