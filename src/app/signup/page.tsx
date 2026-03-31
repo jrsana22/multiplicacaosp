@@ -56,7 +56,30 @@ export default function SignupPage() {
       return;
     }
 
-    setStep(3);
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Erro ao criar conta");
+        setLoading(false);
+        return;
+      }
+
+      setStep(3);
+    } catch (err: any) {
+      setError(err.message || "Erro ao criar conta");
+      setLoading(false);
+    }
   };
 
   return (
