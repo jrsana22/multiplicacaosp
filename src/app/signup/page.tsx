@@ -274,9 +274,9 @@ export default function SignupPage() {
                   }
                 }}
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-slate-400 disabled:to-slate-500 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 text-sm md:text-base shadow-lg"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-semibold py-3 md:py-4 px-4 rounded-xl transition-all duration-200 transform active:scale-95 text-sm md:text-base shadow-md"
               >
-                {loading ? "Entrando no Painel..." : "Acessar Painel"}
+                {loading ? "Entrar no Painel" : "Acessar Painel"}
               </button>
             </div>
           )}
